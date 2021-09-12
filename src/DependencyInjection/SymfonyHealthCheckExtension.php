@@ -40,7 +40,7 @@ class SymfonyHealthCheckExtension extends Extension
 
         $healthCheckCollection = $container->findDefinition(HealthController::class);
         foreach ($config['health_checks'] as $healthCheckConfig) {
-            $healthCheckDefinition = $container->findDefinition($healthCheckConfig['id']);
+            $healthCheckDefinition = new Reference($healthCheckConfig['id']);
             $healthCheckCollection->addMethodCall('addHealthCheck', [$healthCheckDefinition]);
         }
     }
