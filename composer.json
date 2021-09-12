@@ -1,7 +1,7 @@
 {
-    "name": "macpaw/symfony-health-check-bundle",
-    "description": "Symfony health check bundle",
-    "homepage": "https://github.com/MacPaw/symfony-health-check-bundle",
+    "name": "lol768/symfony-health-check-bundle",
+    "description": "Fork of macpaw/symfony-health-check-bundle",
+    "homepage": "https://github.com/lol768/symfony-health-check-bundle",
     "type": "symfony-bundle",
     "keywords": [
         "MacPaw",
