@@ -7,7 +7,12 @@ namespace SymfonyHealthCheckBundle\Check;
 interface CheckInterface
 {
     /**
-     * @return array<string, mixed>
+     * @return CheckResult
      */
-    public function check(): array;
+    public function check(): CheckResult;
+
+    /**
+     * @return string The key to identify this health check
+     */
+    public function getResultKey(): string;
 }

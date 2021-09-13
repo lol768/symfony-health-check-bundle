@@ -19,10 +19,15 @@ class DoctrineCheck implements CheckInterface
         $this->container = $container;
     }
 
+    public function getResultKey(): string
+    {
+        return self::CHECK_RESULT_KEY;
+    }
+
     /**
      * @throws ServiceNotFoundException
      */
-    public function check(): array
+    public function check(): CheckResult
     {
         $result = ['name' => 'doctrine'];
 
@@ -41,12 +46,19 @@ class DoctrineCheck implements CheckInterface
             throw new ServiceNotFoundException('Entity Manager Not Found.');
         }
 
+        $retVal = false;
         try {
-            $entityManager->getConnection()->ping();
+            $retVal = $entityManager->getConnection()->ping();
+            if (!$retVal) {
+                return new CheckResult('Failed to ping', false);
+            }
         } catch (Throwable $e) {
-            return array_merge($result, [self::CHECK_RESULT_KEY => false]);
+            return new CheckResult('Failed to ping', false);
         }
 
-        return array_merge($result, [self::CHECK_RESULT_KEY => true]);
+        return new CheckResult(
+            "Ping successful with driver {$entityManager->getConnection()->getDriver()->getName()}",
+            $retVal
+        );
     }
 }

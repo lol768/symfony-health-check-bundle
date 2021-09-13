@@ -6,8 +6,13 @@ namespace SymfonyHealthCheckBundle\Check;
 
 class StatusUpCheck implements CheckInterface
 {
-    public function check(): array
+    public function check(): CheckResult
     {
-        return ['status' => 'up'];
+        return new CheckResult('up', true);
+    }
+
+    public function getResultKey(): string
+    {
+        return 'status';
     }
 }

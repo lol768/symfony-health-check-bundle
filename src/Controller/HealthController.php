@@ -32,10 +32,16 @@ final class HealthController extends AbstractController
     public function healthCheckAction(): JsonResponse
     {
         $resultHealthCheck = [];
+        $allHealthy = true;
         foreach ($this->healthChecks as $healthCheck) {
-            $resultHealthCheck[] = $healthCheck->check();
+            $checkResult = $healthCheck->check();
+            $allHealthy &= $checkResult->isHealthy();
+            $resultHealthCheck[$healthCheck->getResultKey()] = $checkResult;
         }
 
-        return new JsonResponse($resultHealthCheck, Response::HTTP_OK);
+        return new JsonResponse(
+            $resultHealthCheck,
+            $allHealthy ? Response::HTTP_OK : Response::HTTP_INTERNAL_SERVER_ERROR
+        );
     }
 }
